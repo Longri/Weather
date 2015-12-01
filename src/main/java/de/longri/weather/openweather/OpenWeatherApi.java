@@ -56,6 +56,41 @@ public class OpenWeatherApi implements IWeatherApi {
         return infoList;
     }
 
+
+    @Override
+    public SerializableArrayList<Info> getForecastWeatherInfo(int count, double lat, double lon) {
+
+        SerializableArrayList<Info> infoList = getCurrentWeatherInfo(lat, lon);
+
+        Info w = null;
+        OpenWeatherForecastQueryResult result = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+            String url = String.format(API_FORECAST_URL, lat, lon, KEY);
+            result = mapper.readValue(new URL(url), OpenWeatherForecastQueryResult.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < count && i < result.getList().size(); i++) {
+            w = new Info();
+            w.setTemp(result.getList().get(i).getMain().getTemp());
+            w.setDate(new Date());
+            w.setSunset(result.getList().get(i).getSys().getSunset());
+            w.setSunrise(result.getList().get(i).getSys().getSunrise());
+            OpenWeatherData[] dataArray = result.getList().get(i).getWeather();
+            if (dataArray != null && dataArray.length > 0) {
+                w.setIconID(convertIconId(dataArray[0].getIcon()));
+            }
+            w.setDate(result.getList().get(i).getDt_txt());
+            infoList.add(w);
+        }
+
+
+        return infoList;
+    }
+
     private byte convertIconId(String id) {
 
         if (id.equals("01d")) return 32;
@@ -74,40 +109,6 @@ public class OpenWeatherApi implements IWeatherApi {
         if (id.equals("11n")) return 45;
 
         return 25;
-    }
-
-    @Override
-    public SerializableArrayList<Info> getForcastWeatherInfo(double lat, double lon) {
-
-        SerializableArrayList<Info> infoList = getCurrentWeatherInfo(lat, lon);
-
-        Info w = null;
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-
-
-            String url = String.format(API_FORECAST_URL, lat, lon, KEY);
-
-            OpenWeatherForcastQueryResult result = mapper.readValue(new URL(url), OpenWeatherForcastQueryResult.class);
-
-//            if ("200".equals(result.getCod())) {
-            w = new Info();
-            // w.setCityName(result.getName());
-            w.setTemp(result.getList().get(0).getMain().getTemp());
-            // w.setSunset(result.getSys().getSunset());
-            // w.setSunrise(result.getSys().getSunrise());
-
-//                OpenWeatherData[] dataArray = result.getWeather();
-//                if (dataArray != null && dataArray.length > 0) {
-//                    //   w.setCondition(ConvertCondition(dataArray[0].getId()));
-//                }
-//            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        infoList.add(w);
-        return infoList;
     }
 
     private String ConvertCondition(String code) {

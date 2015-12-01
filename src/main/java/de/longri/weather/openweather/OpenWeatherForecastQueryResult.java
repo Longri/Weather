@@ -2,7 +2,7 @@ package de.longri.weather.openweather;
 
 import java.util.List;
 
-public class OpenWeatherForcastQueryResult {
+public class OpenWeatherForecastQueryResult {
     // ------------------------------ FIELDS ------------------------------
     private OpenWeatherCoord coord;
 

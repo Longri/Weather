@@ -33,7 +33,7 @@ import java.util.Locale;
 public class Info implements Serializable {
     private static final String CELSIUS = "°C";
     private static final String FAHRENHEIT = "°F";
-    final DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss  ", Locale.ENGLISH);
+    final DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
     final static byte ADDITIONAL_TEMP = 80;
 
     // converts to celsius
@@ -138,4 +138,17 @@ public class Info implements Serializable {
     public void setSunrise(long sunrise) {
         this.sunrise = new Date(sunrise);
     }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(DATE_FORMATTER.format(this.date));
+        sb.append(" / ");
+        sb.append(getTemp());
+        sb.append(" / IconId:");
+        sb.append(Byte.toString(this.IconID));
+
+        return sb.toString();
+    }
+
 }

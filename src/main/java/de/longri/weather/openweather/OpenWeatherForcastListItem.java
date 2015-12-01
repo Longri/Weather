@@ -8,6 +8,7 @@ public class OpenWeatherForcastListItem {
     private String dt_txt;
     private OpenWeatherData[] weather;
     private OpenWeatherTemperature main;
+    private OpenWeatherLocation sys;
 
     public String getDt_txt() {
         return dt_txt;
@@ -32,6 +33,15 @@ public class OpenWeatherForcastListItem {
 
     public void setWeather(OpenWeatherData[] weather) {
         this.weather = weather;
+    }
+
+
+    public OpenWeatherLocation getSys() {
+        return sys;
+    }
+
+    public void setSys(OpenWeatherLocation sys) {
+        this.sys = sys;
     }
 
 
