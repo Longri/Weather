@@ -108,6 +108,9 @@ public class OpenWeatherApi implements IWeatherApi {
         if (id.equals("11d")) return 35;
         if (id.equals("11n")) return 45;
 
+        //TODO handle icon ID 50d 50n like fog
+
+
         return 25;
     }
 
