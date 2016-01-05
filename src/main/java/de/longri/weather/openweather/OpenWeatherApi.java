@@ -103,34 +103,16 @@ public class OpenWeatherApi implements IWeatherApi {
         if (id.equals("04n")) return 26;
         if (id.equals("09d")) return 9;
         if (id.equals("09n")) return 9;
-        if (id.equals("10d")) return 37;
+        if (id.equals("10d")) return 39;
         if (id.equals("10n")) return 45;
-        if (id.equals("11d")) return 35;
+        if (id.equals("11d")) return 39;
         if (id.equals("11n")) return 45;
-
-        //TODO handle icon ID 50d 50n like fog
-        //TODO handle icon ID 13d 13n like snow
-
+        if (id.equals("13n")) return 16;
+        if (id.equals("13d")) return 16;
+        if (id.equals("50n")) return 20;
+        if (id.equals("50d")) return 20;
 
         return 25;
     }
 
-    private String ConvertCondition(String code) {
-        switch (code.charAt(0)) {
-            case '2':
-                return "thunder";
-            case '5':
-                return "rain";
-            case '6':
-                return "snow";
-            case '8':
-                if (code.equals("800")) {
-                    return "clear";
-                } else {
-                    return "cloudy";
-                }
-            default:
-                return "";
-        }
-    }
 }
